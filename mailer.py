@@ -10,15 +10,20 @@ class FaceMailer:
 
     def getCode(self):
         self.mail.select(mailbox="INBOX",readonly=True)
-        messages = self.mail.fetch(criteria=AND(from_="registration@facebookmail.com"),mark_seen=TRUE,bulk=True)
-        for msg in messages:
-            print(msg.subject)
-    
+        typ,data = self.mail.search(None,'(FROM "registration@facebookmail.com")')
+        mail_ids = data[0].decode('utf-8')
+        id_list = mail_ids.split()
+        for i in id_list:
+            typ, msg_data = self.mail.fetch(str(i), '(RFC822)')
+            for response_part in msg_data:
+                if isinstance(response_part, tuple):
+                    msg = email.message_from_bytes(response_part[1])
+                    subs = msg['subject'].split("\n")
+                    for sub in subs:
+                        if "is your Facebook confirmation code" in sub:
+                            code = sub.split(" is")
+                            number = code[0].split("-")[1]
+                            return number
     def logout(self):
         self.mail.close()
-        self.mail.logout()
-
-
-mailer = FaceMailer("mail.mahraga.com",143)
-mailer.login("admin@mahraga.com","Mail012243543")
-mailer.getCode()     
+        self.mail.logout() 
