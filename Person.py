@@ -1,5 +1,5 @@
-import random
-import json
+from random import choice
+from json import load
 
 class Person:
     users = None
@@ -13,10 +13,10 @@ class Person:
 
     @staticmethod
     def getUser():
-        data = random.choice(Person.users)
+        data = choice(Person.users)
         return Person(data["first_name"],data["last_name"],data["gender"],data["date"].split("/")[0],data["date"].split("/")[1],data["date"].split("/")[2])
 
     @staticmethod
     def initUsers(file):
         with open(file,'r') as f:
-            Person.users = json.load(f)
+            Person.users = load(f)
