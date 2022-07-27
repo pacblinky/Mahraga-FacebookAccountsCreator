@@ -1,9 +1,5 @@
-from ast import And
 import imaplib
-from pickle import TRUE
-from imap_tools import AND
 import email
-from operator import and_
 
 class FaceMailer:
     def __init__(self,host,port):
@@ -25,8 +21,4 @@ class FaceMailer:
 
 mailer = FaceMailer("mail.mahraga.com",143)
 mailer.login("admin@mahraga.com","Mail012243543")
-mailer.getCode()
-
-    
-
-        
+mailer.getCode()     
