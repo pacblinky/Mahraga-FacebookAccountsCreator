@@ -17,6 +17,6 @@ class Person:
         return Person(data["first_name"],data["last_name"],data["gender"],data["date"].split("/")[0],data["date"].split("/")[1],data["date"].split("/")[2])
 
     @staticmethod
-    def initUsers():
-        with open('data.json','r') as f:
+    def initUsers(file):
+        with open(file,'r') as f:
             Person.users = json.load(f)
