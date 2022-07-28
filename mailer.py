@@ -1,9 +1,9 @@
-import imaplib
-import email
+from imaplib import IMAP4
+from email import message_from_bytes
 
 class FaceMailer:
     def __init__(self,host,port):
-        self.mail = imaplib.IMAP4(host,port)
+        self.mail = IMAP4(host,port)
     
     def login(self,username,password):
         self.mail.login(username,password)
@@ -17,7 +17,7 @@ class FaceMailer:
             typ, msg_data = self.mail.fetch(str(i), '(RFC822)')
             for response_part in msg_data:
                 if isinstance(response_part, tuple):
-                    msg = email.message_from_bytes(response_part[1])
+                    msg = message_from_bytes(response_part[1])
                     subs = msg['subject'].split("\n")
                     for sub in subs:
                         if "is your Facebook confirmation code" in sub:
@@ -25,7 +25,7 @@ class FaceMailer:
                             number = code[0].split("-")[1]
                             return str(number)
         return False
-    
+        
     def logout(self):
         self.mail.close()
-        self.mail.logout() 
+        self.mail.logout()

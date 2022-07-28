@@ -1,30 +1,31 @@
-from paramiko import SSHClient, SSHException,AutoAddPolicy
+import requests
+from bs4 import BeautifulSoup as soup
 
 class Mailu:
-    def __init__(self,host,port,username,password):
-        self.client = SSHClient()
-        self.host = host
-        self.port = port
-        self.username = username
-        self.password = password
+    def __init__(self,url):
+        self.requestor = requests.session()
+        self.url = url
 
-    def connect(self):
-        try:
-            self.client.set_missing_host_key_policy(AutoAddPolicy())
-            self.client.connect(self.host,self.port,self.username,self.password)
-            return True
-        except Exception as e:
-            return False
+    def login(self,username,password):
+        self.requestor.get(self.url+"/sso/login",data={"email": username, "pw": password, "submitAdmin": "Sign in Admin"})
 
     def addUser(self,username,password):
-        try:
-            self.client.exec_command(f"docker-compose -f /mailu/docker-compose.yml exec admin flask mailu user {username} mahraga.com '{password}'")
-            return True
-        except Exception:
-            return False
+        response = self.requestor.get(self.url+"/admin/user/create/mahraga.com")
+        csrf_token = soup(response.text,'html.parser').select_one('input#csrf_token')["value"]
+        account_data = {
+            "localpart": username,
+            "pw": password,
+            "pw2": password,
+            "displayed_name": "",
+            "comment": "",
+            "enabled": "y",
+            "quota_bytes": 1000000000,
+            "enable_imap": "y",
+            "enable_pop": "y",
+            "submit": "Save",
+            "csrf_token": str(csrf_token)
+        }
+        self.requestor.post(self.url+"/admin/user/create/mahraga.com",data=account_data)   
 
-    def disconnect(self):
-        self.client.close()
-
-
-    
+    def logout(self):
+        self.requestor.close()   

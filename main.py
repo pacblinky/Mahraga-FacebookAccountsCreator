@@ -1,15 +1,9 @@
-from email import message
 from tkinter import Tk, Label, Button,messagebox
 from mailu import Mailu
 from mailer import FaceMailer
 from Facebook import Facebook
 from Person import Person
 from uuid import uuid4
-
-root = Tk()
-
-title_lbl = Label(root, text="Mahraga Facebook Account Creator",font=("Arial",10))
-currentAccount_lbl = Label(root, text="Current account:")
 
 Person.initUsers("data.json")
 
@@ -18,6 +12,7 @@ mailer = None
 ssh = None
 email = None
 password = None
+gender = None
 
 def openBrowser():
     global bot
@@ -62,12 +57,12 @@ def getCode():
     if mail.getCode() == False:
         messagebox.showinfo("no code","no code")
     else:
-        message.showinfo("El code wasal",mail.getCode())
+        messagebox.showinfo("El code wasal",mail.getCode())
 
 def saveAccount():
     pass
 
-
+root = Tk()
 openBrowser_btn = Button(root,text="Open Browser",command=openBrowser)
 closeBrowser_btn = Button(root,text="Close Browser",command=closeBrowser)
 connectSSH_btn = Button(root,text="Connect SSH", command=connectSSH)
@@ -76,14 +71,11 @@ createAccount_btn = Button(root,text="Create account",command=createAccount)
 getCode_btn = Button(root,text="Hat el Code",command=getCode)
 save_btn = Button(root,text="Done",command=saveAccount)
 
-title_lbl.grid(row=0,column=0)
 connectSSH_btn.grid(row=1,column=0)
 disconnectSSH_btn.grid(row=1,column=1)
 openBrowser_btn.grid(row=2,column=0)
 closeBrowser_btn.grid(row=2,column=1)
 createAccount_btn.grid(row=3,column=0)
 save_btn.grid(row=3,column=1)
-
-
 
 root.mainloop()
