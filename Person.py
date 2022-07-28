@@ -1,5 +1,5 @@
 from random import choice
-from json import loa
+from json import load
 
 class Person:
     users = None
