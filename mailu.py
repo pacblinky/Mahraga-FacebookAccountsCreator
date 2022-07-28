@@ -1,4 +1,4 @@
-from paramiko import SSHClient, SSHException
+from paramiko import SSHClient, SSHException,AutoAddPolicy
 
 class Mailu:
     def __init__(self,host,port,username,password):
@@ -10,9 +10,10 @@ class Mailu:
 
     def connect(self):
         try:
+            self.client.set_missing_host_key_policy(AutoAddPolicy())
             self.client.connect(self.host,self.port,self.username,self.password)
             return True
-        except Exception:
+        except Exception as e:
             return False
 
     def addUser(self,username,password):

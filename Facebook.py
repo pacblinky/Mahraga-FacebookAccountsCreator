@@ -17,7 +17,8 @@ class Facebook:
         self.browser = webdriver.Chrome(executable_path="chromedriver.exe",options=options)
     
     def signup(self,email,password,person):
-        self.browser.get("https://www.facebook.com/reg")
+        if self.browser.current_url != "https://facebook.com/reg":
+            self.browser.get("https://facebook.com/reg")
         WebDriverWait(self.browser, 20).until(EC.presence_of_element_located((By.NAME, "firstname"))).send_keys(person.fname)
         WebDriverWait(self.browser, 20).until(EC.presence_of_element_located((By.NAME, "lastname"))).send_keys(person.lname)
         WebDriverWait(self.browser, 20).until(EC.presence_of_element_located((By.NAME, "reg_email__"))).send_keys(email)
@@ -31,3 +32,13 @@ class Facebook:
         Select(birthday_year).select_by_value(person.year)
         WebDriverWait(self.browser, 20).until(EC.presence_of_element_located((By.XPATH, "//input[@value='"+str(person.gender)+"']"))).click()
         WebDriverWait(self.browser, 20).until(EC.presence_of_element_located((By.NAME, "websubmit"))).click()
+        WebDriverWait(self.browser,20).until(EC.presence_of_element_located((By.XPATH, "//div[aria-label='Continue]"))).click()
+
+    def logout(self):
+        self.browser.delete_all_cookies()
+        self.browser.execute_script('window.localStorage.clear();')
+        self.browser.execute_script('window.sessionStorage.clear();')
+        self.browser.get("https://facebook.com/reg")
+
+    def close(self):
+        self.browser.close()

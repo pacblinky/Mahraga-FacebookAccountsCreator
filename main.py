@@ -1,19 +1,80 @@
-from tkinter import Tk, Label, Button, Grid, Toplevel
-from turtle import onclick
+from email import message
+from tkinter import Tk, Label, Button,messagebox
 from mailu import Mailu
-from Facebook import FaceBot
+from mailer import FaceMailer
+from Facebook import Facebook
+from Person import Person
+from uuid import uuid4
 
 root = Tk()
 
 title_lbl = Label(root, text="Mahraga Facebook Account Creator",font=("Arial",10))
 currentAccount_lbl = Label(root, text="Current account:")
 
-openBrowser_btn = Button(root,text="Open Browser")
-closeBrowser_btn = Button(root,text="Close Browser")
-connectSSH_btn = Button(root,text="Connect SSH")
-disconnectSSH_btn = Button(root,text="Disconnect SSH")
-createAccount_btn = Button(root,text="Create account") 
-save_btn = Button(root,text="Done")
+Person.initUsers("data.json")
+
+bot = None
+mailer = None
+ssh = None
+email = None
+password = None
+
+def openBrowser():
+    global bot
+    bot = Facebook()
+
+def closeBrowser():
+    global bot
+    bot.close()
+
+def connectSSH():
+    global ssh
+    ssh = Mailu("mail.mahraga.com",22,"root","mx012243543")
+    if ssh.connect():
+        messagebox.showinfo("Connected",  "Tam el atsaal")
+    else:
+        messagebox.showerror("Can't Connect","Shoflak klba 7ad l3b fe el router")
+    
+def closeSSH(): 
+    global ssh
+    ssh.disconnect()
+
+def createAccount():
+    global ssh
+    global bot
+    global email
+    global password
+    code = str(uuid4())
+    email = code.split("-")[0]
+    password = code.split("-")[1]+code.split("-")[2]
+
+    if ssh.addUser(email,password):
+        messagebox.showinfo("el email at3ml",  "no touch el browser")
+        bot.signup(email+"@mahraga.com",password,Person.getUser())
+    else:
+        messagebox.showinfo("el email msh rady yt3ml","yorga el m7wla mn gdded")
+
+def getCode():
+    global email
+    global password
+    mail = FaceMailer("mail.mahraga.com",143)
+    mail.login(email+"@mahraga.com",password)
+    if mail.getCode() == False:
+        messagebox.showinfo("no code","no code")
+    else:
+        message.showinfo("El code wasal",mail.getCode())
+
+def saveAccount():
+    pass
+
+
+openBrowser_btn = Button(root,text="Open Browser",command=openBrowser)
+closeBrowser_btn = Button(root,text="Close Browser",command=closeBrowser)
+connectSSH_btn = Button(root,text="Connect SSH", command=connectSSH)
+disconnectSSH_btn = Button(root,text="Close SSH",command=closeSSH)
+createAccount_btn = Button(root,text="Create account",command=createAccount) 
+getCode_btn = Button(root,text="Hat el Code",command=getCode)
+save_btn = Button(root,text="Done",command=saveAccount)
 
 title_lbl.grid(row=0,column=0)
 connectSSH_btn.grid(row=1,column=0)
