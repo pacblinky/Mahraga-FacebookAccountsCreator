@@ -32,7 +32,7 @@ class Facebook:
         Select(birthday_year).select_by_value(person.year)
         WebDriverWait(self.browser, 20).until(EC.presence_of_element_located((By.XPATH, "//input[@value='"+str(person.gender)+"']"))).click()
         WebDriverWait(self.browser, 20).until(EC.presence_of_element_located((By.NAME, "websubmit"))).click()
-        WebDriverWait(self.browser,20).until(EC.presence_of_element_located((By.XPATH, "//div[aria-label='Continue]"))).click()
+        WebDriverWait(self.browser,20).until(EC.presence_of_element_located((By.XPATH, "//div[@aria-label='Continue']"))).click()
 
     def logout(self):
         self.browser.delete_all_cookies()
