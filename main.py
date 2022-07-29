@@ -59,12 +59,10 @@ def getCode():
     if code == False:
         messagebox.showinfo("no code","no code")
     else:
-        messagebox.showinfo("El code wasal",code)
         root.withdraw()
         root.clipboard_clear()
         root.clipboard_append(code)
-        root.update()
-        root.destroy()
+        messagebox.showinfo("El code wasal",code)
         
 def saveAccount():
     pass
