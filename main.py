@@ -9,7 +9,7 @@ Person.initUsers("data.json")
 
 bot = None
 mailer = None
-ssh = None
+mailuer = None
 email = None
 password = None
 gender = None
@@ -22,20 +22,20 @@ def closeBrowser():
     global bot
     bot.close()
 
-def connectSSH():
-    global ssh
-    ssh = Mailu("mail.mahraga.com",22,"root","mx012243543")
-    if ssh.connect():
-        messagebox.showinfo("Connected",  "Tam el atsaal")
+def loginMailu():
+    global mailuer
+    mailuer = Mailu("http://mail.mahraga.com/")
+    if mailuer.login("admin@mahraga.com","Mail012243543"):
+        messagebox.showinfo("Connected",  "tam tsgeel el do8al")
     else:
-        messagebox.showerror("Can't Connect","Shoflak klba 7ad l3b fe el router")
+        messagebox.showerror("Can't login","Shoflak klba 7ad l3b fe el router")
     
-def closeSSH(): 
-    global ssh
-    ssh.disconnect()
+def logoutMailu(): 
+    global mailuer
+    mailuer.logout()
 
 def createAccount():
-    global ssh
+    global mailuer
     global bot
     global email
     global password
@@ -43,7 +43,7 @@ def createAccount():
     email = code.split("-")[0]
     password = code.split("-")[1]+code.split("-")[2]
 
-    if ssh.addUser(email,password):
+    if mailuer.addUser(email,password):
         messagebox.showinfo("el email at3ml",  "no touch el browser")
         bot.signup(email+"@mahraga.com",password,Person.getUser())
     else:
@@ -65,8 +65,8 @@ def saveAccount():
 root = Tk()
 openBrowser_btn = Button(root,text="Open Browser",command=openBrowser)
 closeBrowser_btn = Button(root,text="Close Browser",command=closeBrowser)
-connectSSH_btn = Button(root,text="Connect SSH", command=connectSSH)
-disconnectSSH_btn = Button(root,text="Close SSH",command=closeSSH)
+connectSSH_btn = Button(root,text="Login Mailu", command=loginMailu)
+disconnectSSH_btn = Button(root,text="Logout Mailu",command=logoutMailu)
 createAccount_btn = Button(root,text="Create account",command=createAccount) 
 getCode_btn = Button(root,text="Hat el Code",command=getCode)
 save_btn = Button(root,text="Done",command=saveAccount)
@@ -76,6 +76,7 @@ disconnectSSH_btn.grid(row=1,column=1)
 openBrowser_btn.grid(row=2,column=0)
 closeBrowser_btn.grid(row=2,column=1)
 createAccount_btn.grid(row=3,column=0)
-save_btn.grid(row=3,column=1)
+getCode_btn.grid(row=3,column=1)
+save_btn.grid(row=4,column=0)
 
 root.mainloop()
