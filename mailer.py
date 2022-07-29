@@ -1,4 +1,5 @@
 from imap_tools import MailBoxUnencrypted,AND
+from re import findall
 
 class FaceMailer:
     def __init__(self,host,port):
@@ -10,9 +11,7 @@ class FaceMailer:
     def getCode(self):
         for msg in self.mail.fetch(criteria=AND(from_="registration@facebookmail.com")):
             if "is your Facebook confirmation code" in msg.subject:
-                code = msg.subject.split(" ")[0]
-                number = code.split("-")[1]
-                return number
+                return findall(r"\b\d{5}\b", msg.subject)[0]
         return False
         
     def logout(self):

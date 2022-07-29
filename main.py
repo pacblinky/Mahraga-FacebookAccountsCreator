@@ -6,6 +6,7 @@ from Person import Person
 from uuid import uuid4
 
 Person.initUsers("data.json")
+root = Tk()
 
 bot = None
 mailer = None
@@ -54,15 +55,20 @@ def getCode():
     global password
     mail = FaceMailer("mail.mahraga.com",143)
     mail.login(email+"@mahraga.com",password)
-    if mail.getCode() == False:
+    code = mail.getCode()
+    if code == False:
         messagebox.showinfo("no code","no code")
     else:
-        messagebox.showinfo("El code wasal",mail.getCode())
-
+        messagebox.showinfo("El code wasal",code)
+        root.withdraw()
+        root.clipboard_clear()
+        root.clipboard_append(code)
+        root.update()
+        root.destroy()
+        
 def saveAccount():
     pass
 
-root = Tk()
 openBrowser_btn = Button(root,text="Open Browser",command=openBrowser)
 closeBrowser_btn = Button(root,text="Close Browser",command=closeBrowser)
 connectSSH_btn = Button(root,text="Login Mailu", command=loginMailu)
