@@ -37,6 +37,7 @@ def loginMailu():
         createAccount_btn.configure(state="active")
     else:
         messagebox.showerror("Can't login","Shoflak klba 7ad l3b fe el router")
+        createAccount_btn.configure(state="disabled")
     
 def logoutMailu(): 
     global mailuer
@@ -59,6 +60,7 @@ def createAccount():
         getCode_btn.configure(state="active")
     else:
         messagebox.showinfo("el email msh rady yt3ml","yorga el m7wla mn gdded")
+        getCode_btn.configure(state="disabled")
 
 def getCode():
     global email
