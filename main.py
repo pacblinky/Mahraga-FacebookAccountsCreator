@@ -20,12 +20,14 @@ def openBrowser():
     bot = Facebook()
     openBrowser_btn.configure(state="disabled")
     closeBrowser_btn.configure(state="active")
+    createAccount_btn.configure(state="active")
 
 def closeBrowser():
     global bot
     bot.close()
     openBrowser_btn.configure(state="active")
     closeBrowser_btn.configure(state="disabled")
+    createAccount_btn.configure(state="disabled")
 
 def loginMailu():
     global mailuer
