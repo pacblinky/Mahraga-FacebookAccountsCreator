@@ -14,6 +14,7 @@ mailuer = None
 email = None
 password = None
 gender = None
+saver = None
 
 def openBrowser():
     global bot
@@ -76,7 +77,13 @@ def getCode():
         root.clipboard_clear()
         root.clipboard_append(code)
         messagebox.showinfo("El code wasal",code)
-        
+
+def openSaver():
+    pass
+
+def closeSaver():
+    pass 
+
 def saveAccount():
     pass
 
@@ -86,6 +93,8 @@ loginMailu_btn = Button(root,text="Login Mailu", command=loginMailu)
 logoutMailu_btn = Button(root,text="Logout Mailu",command=logoutMailu,state="disabled")
 createAccount_btn = Button(root,text="Create account",command=createAccount,state="disabled") 
 getCode_btn = Button(root,text="Hat el Code",command=getCode,state="disabled")
+openSaver_btn = Button(root,text="Open Saver",command=openSaver)
+closeSaver_btn = Button(root,text="Close Saver",command=closeSaver)
 save_btn = Button(root,text="Done",command=saveAccount)
 
 loginMailu_btn.grid(row=1,column=0)
@@ -94,6 +103,6 @@ openBrowser_btn.grid(row=2,column=0)
 closeBrowser_btn.grid(row=2,column=1)
 createAccount_btn.grid(row=3,column=0)
 getCode_btn.grid(row=3,column=1)
-save_btn.grid(row=4,column=0)
+save_btn.grid(row=5,column=0)
 
 root.mainloop()
