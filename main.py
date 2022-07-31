@@ -60,7 +60,7 @@ def createAccount():
         getCode_btn.configure(state="active")
     else:
         getCode_btn.configure(state="disabled")
-        messagebox.showinfo("el email msh rady yt3ml","yorga el m7wla mn gdded")
+        messagebox.showerror("el email msh rady yt3ml","yorga el m7wla mn gdded")
 
 def getCode():
     global email
