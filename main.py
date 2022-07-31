@@ -71,7 +71,6 @@ def getCode():
     if code == False:
         messagebox.showinfo("no code","no code")
     else:
-        root.withdraw()
         root.clipboard_clear()
         root.clipboard_append(code)
         messagebox.showinfo("El code wasal",code)
