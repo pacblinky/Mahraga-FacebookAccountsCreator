@@ -15,9 +15,14 @@ class SQL:
             self.db = mariadb.connect(user=self.username,password=self.password,host=self.host,port=self.port,database=self.database)
             self.cursor = self.db.cursor()
             return True
-        
         except Exception:
             return False
 
     def query(self,sql,params = []):
         self.cursor.execute(sql,params)
+        self.cursor.commit()
+
+    def disconnect(self):
+        self.cursor.close()
+        self.db.close()
+
