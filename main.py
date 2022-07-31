@@ -1,8 +1,8 @@
 from tkinter import Tk, Label, Button,messagebox
 from mailu import Mailu
 from mailer import FaceMailer
-from Facebook import Facebook
-from Person import Person
+from facebook import Facebook
+from person import Person
 from uuid import uuid4
 
 Person.initUsers("data.json")
