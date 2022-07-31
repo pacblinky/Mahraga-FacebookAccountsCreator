@@ -33,11 +33,11 @@ def loginMailu():
     if mailuer.login("admin@mahraga.com","Mail012243543"):
         loginMailu_btn.configure(state="disabled")
         logoutMailu_btn.configure(state="active")
-        messagebox.showinfo("Connected",  "tam tsgeel el do8al")
         createAccount_btn.configure(state="active")
+        messagebox.showinfo("Connected",  "tam tsgeel el do8al")
     else:
-        messagebox.showerror("Can't login","Shoflak klba 7ad l3b fe el router")
         createAccount_btn.configure(state="disabled")
+        messagebox.showerror("Can't login","Shoflak klba 7ad l3b fe el router")
     
 def logoutMailu(): 
     global mailuer
@@ -59,8 +59,8 @@ def createAccount():
         bot.signup(email+"@mahraga.com",password,Person.getUser())
         getCode_btn.configure(state="active")
     else:
-        messagebox.showinfo("el email msh rady yt3ml","yorga el m7wla mn gdded")
         getCode_btn.configure(state="disabled")
+        messagebox.showinfo("el email msh rady yt3ml","yorga el m7wla mn gdded")
 
 def getCode():
     global email
