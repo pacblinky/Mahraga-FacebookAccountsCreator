@@ -1,10 +1,12 @@
-from tkinter import Tk, Label, Button,messagebox
+from tkinter import Tk, Label, Button, messagebox
 from mailu import Mailu
 from mailer import Mailer
 from facebot import FaceBot
 from person import Person
 from uuid import uuid4
 from saver import Saver
+from dotenv import dotenv_values
+from easygui import enterbox
 
 root = Tk()
 bot = None
@@ -13,6 +15,7 @@ email = None
 password = None
 gender = None
 saver = None
+config = dotenv_values("config.env")
 Person.initUsers("data.json")
 
 def openBrowser():
@@ -27,17 +30,19 @@ def closeBrowser():
     openBrowser_btn.configure(state="active")
     closeBrowser_btn.configure(state="disabled")
     createAccount_btn.configure(state="disabled")
+    bot = None
 
 def loginMailu():
     global mailuer
-    mailuer = Mailu("http://mail.mahraga.com/")
-    if mailuer.login("admin@mahraga.com","Mail012243543"):
+    mailuer = Mailu(config["MAILU_URL"])
+    if mailuer.login(config["MAILU_USERNAME"],config["MAILU_PASSWORD"]):
         loginMailu_btn.configure(state="disabled")
         logoutMailu_btn.configure(state="active")
         createAccount_btn.configure(state="active")
         messagebox.showinfo("Mailu logged in", "tam tsgeel el do8al 3la mailu")
     else:
         createAccount_btn.configure(state="disabled")
+        mailuer = None
         messagebox.showerror("Can't login to Mailu","Shoflak klba 7ad l3b fe el router")
     
 def logoutMailu(): 
@@ -45,6 +50,7 @@ def logoutMailu():
     loginMailu_btn.configure(state="active")
     logoutMailu_btn.configure(state="disabled")
     createAccount_btn.configure(state="disabled")
+    mailuer = None
 
 def createAccount():
     global email
@@ -64,7 +70,7 @@ def createAccount():
         messagebox.showerror("Can't create account","yorga el m7wla mn gdded")
 
 def getCode():
-    mail = Mailer("mail.mahraga.com",143)
+    mail = Mailer(config["MAIL_HOST"],int(config["MAIL_PORT"]))
     if mail.login(email+"@mahraga.com",password):
         code = mail.getCode()
         if code == False:
@@ -79,7 +85,7 @@ def getCode():
 
 def openSaver():
     global saver
-    saver = Saver("mahraga.com",3306,"facebot","-aPA@safPzWxP@9M","facebot")
+    saver = Saver(config["SAVER_DBHOST"],int(config["SAVER_DBPORT"]),config["SAVER_DBUSER"],config["SAVER_DBPASS"],config["SAVER_DBNAME"])
     if saver.open():
         closeSaver_btn.configure(state="active")
         openSaver_btn.configure(state="disabled")
@@ -87,6 +93,7 @@ def openSaver():
         messagebox.showinfo("Saver opened successfully","el saver bymse 3lek")
     else:
         messagebox.showerror("Can't open the saver","shoflak klba yala")
+        saver = None
 
 def closeSaver():
     global saver
@@ -94,6 +101,7 @@ def closeSaver():
     closeSaver_btn.configure(state="disabled")
     openSaver_btn.configure(state="active")
     save_btn.configure(state="disabled")
+    saver = None
 
 def saveAccount(table):
     if saver.addAccount(email,password,int(gender),table):
