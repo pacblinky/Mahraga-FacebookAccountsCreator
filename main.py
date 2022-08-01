@@ -54,7 +54,7 @@ def createAccount():
     email = code.split("-")[0]
     password = code.split("-")[1]+code.split("-")[2]
     if mailuer.addUser(email,password):
-        messagebox.showinfo("el email at3ml",  "no touch el browser")
+        messagebox.showinfo("Creating account",  "no touch el browser")
         person = Person.getUser()
         gender = int(person.gender)
         getCode_btn.configure(state="active")
@@ -68,11 +68,11 @@ def getCode():
     if mail.login(email+"@mahraga.com",password):
         code = mail.getCode()
         if code == False:
-            messagebox.showinfo("no code","el code lsa mwaslash")
+            messagebox.showinfo("No code yet","el code lsa mwaslash")
         else:
             root.clipboard_clear()
             root.clipboard_append(code)
-            messagebox.showinfo("El code wasal",code)
+            messagebox.showinfo("Got the code",code)
     else:
         messagebox.showerror("Can't login to get code","msh 3raf aft7 el email ageeb el code yasta")
     mail.logout()
@@ -84,9 +84,9 @@ def openSaver():
         closeSaver_btn.configure(state="active")
         openSaver_btn.configure(state="disabled")
         save_btn.configure(state="active")
-        messagebox.showinfo("Saver connected","el saver bymse 3lek")
+        messagebox.showinfo("Saver opened successfully","el saver bymse 3lek")
     else:
-        messagebox.showerror("Can't Connect to Saver","shoflak klba yala")
+        messagebox.showerror("Can't open the saver","shoflak klba yala")
 
 def closeSaver():
     global saver
