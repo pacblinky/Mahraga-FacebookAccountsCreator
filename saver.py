@@ -11,8 +11,12 @@ class Saver:
         else:
             return False
 
-    def addAccount(self,email,password,gender):
-        self.db.query("INSERT INTO uncomplete_accounts (email,password,gender) VALUES(?, ?, ?)",[email, password, gender])
+    def addAccount(self, email, password, gender, table):
+        try:
+            self.db.query("""INSERT INTO `closed_accounts`(`email`, `password`, `gender`) VALUES(?, ?, ?)""",[email, password, gender])
+            return True
+        except Exception:
+            return False
 
     def close(self):
         self.db.disconnect()

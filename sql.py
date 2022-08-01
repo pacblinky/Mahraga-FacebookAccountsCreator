@@ -20,7 +20,7 @@ class SQL:
 
     def query(self,sql,params = []):
         self.cursor.execute(sql,params)
-        self.cursor.commit()
+        self.db.commit()
 
     def disconnect(self):
         self.cursor.close()
