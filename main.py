@@ -103,13 +103,15 @@ def saveAccount(table):
         messagebox.showerror("Can't save account","el account ra7 el teen")
 
 def exitProgram():
-    if bot:
-        bot.close()
-    if mailuer:
-        mailuer.logout()
-    if saver:
-        saver.close()
-    root.destroy()
+    confirm = messagebox.askyesno("Confirmation","Are you sure you want to quit?")
+    if confirm:
+        if bot:
+            bot.close()
+        if mailuer:
+            mailuer.logout()
+        if saver:
+            saver.close()
+        root.destroy()
 
 openBrowser_btn = Button(root,text="Open Browser",command=openBrowser)
 closeBrowser_btn = Button(root,text="Close Browser",command=closeBrowser,state="disabled")
