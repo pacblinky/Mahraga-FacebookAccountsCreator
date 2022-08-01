@@ -1,7 +1,7 @@
 from imap_tools import MailBoxUnencrypted,AND
 from re import findall
 
-class FaceMailer:
+class Mailer:
     def __init__(self,host,port):
         self.mail = MailBoxUnencrypted(host,port)
     

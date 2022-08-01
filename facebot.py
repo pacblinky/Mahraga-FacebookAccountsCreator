@@ -5,10 +5,8 @@ from selenium.webdriver.support import expected_conditions as EC
 from selenium.common.exceptions import TimeoutException
 from selenium.webdriver.support.ui import Select
 
-class Facebook:
-    def __init__(self,username = None, password = None):
-        self.username = username
-        self.password = password
+class FaceBot:
+    def __init__(self):
         options = webdriver.ChromeOptions()
         options.add_argument("--disable-notifications")
         options.add_argument("--disable-popup-blocking")

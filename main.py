@@ -1,7 +1,7 @@
 from tkinter import Tk, Label, Button,messagebox
 from mailu import Mailu
-from mailer import FaceMailer
-from facebook import Facebook
+from mailer import Mailer
+from facebot import FaceBot
 from person import Person
 from uuid import uuid4
 from saver import Saver
@@ -17,7 +17,7 @@ Person.initUsers("data.json")
 
 def openBrowser():
     global bot
-    bot = Facebook()
+    bot = FaceBot()
     openBrowser_btn.configure(state="disabled")
     closeBrowser_btn.configure(state="active")
     createAccount_btn.configure(state="active")
@@ -64,7 +64,7 @@ def createAccount():
         messagebox.showerror("Can't create account","yorga el m7wla mn gdded")
 
 def getCode():
-    mail = FaceMailer("mail.mahraga.com",143)
+    mail = Mailer("mail.mahraga.com",143)
     if mail.login(email+"@mahraga.com",password):
         code = mail.getCode()
         if code == False:
@@ -98,6 +98,7 @@ def closeSaver():
 def saveAccount(table):
     if saver.addAccount(email,password,int(gender),table):
         messagebox.showinfo("Saved account","el account ra7 m3a a5wato")
+        bot.logout()
     else:
         messagebox.showerror("Can't save account","el account ra7 el teen")
 
