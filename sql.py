@@ -25,4 +25,3 @@ class SQL:
     def disconnect(self):
         self.cursor.close()
         self.db.close()
-
