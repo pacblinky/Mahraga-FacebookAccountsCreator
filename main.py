@@ -1,4 +1,3 @@
-from email import message
 from tkinter import Tk, Label, Button,messagebox
 from mailu import Mailu
 from mailer import FaceMailer
