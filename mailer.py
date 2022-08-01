@@ -6,7 +6,11 @@ class FaceMailer:
         self.mail = MailBoxUnencrypted(host,port)
     
     def login(self,username,password):
-        self.mail.login(username,password,initial_folder="INBOX")
+        try:
+            self.mail.login(username,password,initial_folder="INBOX")
+            return True
+        except Exception:
+            return False
 
     def getCode(self):
         for msg in self.mail.fetch(criteria=AND(from_="registration@facebookmail.com")):
@@ -15,5 +19,4 @@ class FaceMailer:
         return False
         
     def logout(self):
-        self.mail.close()
         self.mail.logout()
