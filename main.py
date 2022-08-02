@@ -7,6 +7,7 @@ from uuid import uuid4
 from saver import Saver
 from dotenv import dotenv_values
 from easygui import enterbox
+from re import fullmatch
 
 root = Tk()
 bot = None
@@ -26,6 +27,7 @@ def openBrowser():
     createAccount_btn.configure(state="active")
 
 def closeBrowser():
+    global bot
     bot.close()
     openBrowser_btn.configure(state="active")
     closeBrowser_btn.configure(state="disabled")
@@ -56,18 +58,39 @@ def createAccount():
     global email
     global password
     global gender
+    customMail = False
     code = str(uuid4())
-    email = code.split("-")[0]
-    password = code.split("-")[1]+code.split("-")[2]
-    if mailuer.addUser(email,password):
-        messagebox.showinfo("Creating account",  "no touch el browser")
+    signup = True
+    while True:
+        reply = enterbox("Do you want to use a custom email?","Custom email")
+        if reply:
+            if fullmatch(r'\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,}\b', reply):
+                customMail = True
+                email = reply
+                break
+            else:
+                messagebox.showwarning("Invalid email","Please enter a valid email")
+        else:
+            email = code.split("-")[0]+"@mahraga.com"
+            break
+    if customMail:
+        getCode_btn.configure(state="disabled")
+    else:
+        if mailuer:
+            if mailuer.addUser(email.split("@")[0],password):
+                getCode_btn.configure(state="active")
+            else:
+                signup = False
+                messagebox.showerror("Can't create account","yorga el m7wla mn gdded")
+        else:
+            signup = False
+            messagebox.showwarning("Can't create account","Please login to mailu first")
+    if signup:
         person = Person.getUser()
         gender = int(person.gender)
-        getCode_btn.configure(state="active")
-        bot.signup(email+"@mahraga.com",password,person)
-    else:
-        getCode_btn.configure(state="disabled")
-        messagebox.showerror("Can't create account","yorga el m7wla mn gdded")
+        password = code.split("-")[1]+code.split("-")[2]
+        bot.signup(email,password,person)
+        messagebox.showinfo("Creating account","no touch el browser")
 
 def getCode():
     mail = Mailer(config["MAIL_HOST"],int(config["MAIL_PORT"]))
