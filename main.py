@@ -61,6 +61,10 @@ def createAccount():
     customMail = False
     code = str(uuid4())
     signup = True
+    if not bot:
+        messagebox.showwarning("Can't create account","Please open the browser first")
+        getCode_btn.configure(state="disabled")
+        return
     while True:
         reply = enterbox("Do you want to use a custom email?","Custom email")
         if reply:
