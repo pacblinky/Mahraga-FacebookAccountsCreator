@@ -39,7 +39,7 @@ class Mailu:
                 "csrf_token": str(csrf_token)
             }
             response = self.requestor.post(self.url+"admin/user/create/mahraga.com",data=account_data)
-            if response.status_code == 302 or response.status_code == 200:
+            if response.status_code == 302:
                 return True
             else:
                 return False

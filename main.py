@@ -80,7 +80,7 @@ def createAccount():
     if customMail:
         getCode_btn.configure(state="disabled")
     else:
-        if mailuer:
+        if mailuer is not None:
             if mailuer.addUser(email.split("@")[0],password):
                 getCode_btn.configure(state="active")
             else:
@@ -98,7 +98,7 @@ def createAccount():
 
 def getCode():
     mail = Mailer(config["MAIL_HOST"],int(config["MAIL_PORT"]))
-    if mail.login(email+"@mahraga.com",password):
+    if mail.login(email,password):
         code = mail.getCode()
         if code == False:
             messagebox.showinfo("No code yet","el code lsa mwaslash")

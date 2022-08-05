@@ -1,4 +1,5 @@
 from selenium import webdriver
+import undetected_chromedriver as uc
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
@@ -12,7 +13,7 @@ class FaceBot:
         options.add_argument("--disable-popup-blocking")
         options.add_argument("--start-maximized")
         options.add_argument("--lang=en-US")
-        self.browser = webdriver.Chrome(executable_path="chromedriver.exe",options=options)
+        self.browser = uc.Chrome(driver_executable_path="chromedriver.exe",options=options,use_subprocess=True)
     
     def signup(self,email,password,person):
         if self.browser.current_url != "https://facebook.com/reg":
