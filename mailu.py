@@ -7,14 +7,15 @@ class Mailu:
         self.url = url
 
     def login(self,username,password):
-        response = self.requestor.get(self.url+"sso/login")
-        if response.status_code == 200:
-            response = self.requestor.post(self.url+"sso/login",data={"email": username, "pw": password, "submitAdmin": "Sign in Admin"})
+        try:
+            response = self.requestor.get(self.url+"sso/login")
             if response.status_code == 200:
-                return True
-            else:
-                return False
-        else:
+                response = self.requestor.post(self.url+"sso/login",data={"email": username, "pw": password, "submitAdmin": "Sign in Admin"})
+                if response.status_code == 200:
+                    return True
+                else:
+                    return False
+        except requests.RequestException:
             return False
 
     def addUser(self,username,password):
@@ -23,7 +24,6 @@ class Mailu:
             try:
                 csrf_token = soup(response.text,'html.parser').select_one('input#csrf_token')["value"]
             except Exception as e:
-                print(e)
                 return False
             account_data = {
                 "localpart": username,
