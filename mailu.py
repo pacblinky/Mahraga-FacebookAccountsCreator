@@ -23,7 +23,7 @@ class Mailu:
         if response.status_code == 200:
             try:
                 csrf_token = soup(response.text,'html.parser').select_one('input#csrf_token')["value"]
-            except Exception as e:
+            except Exception:
                 return False
             account_data = {
                 "localpart": username,
