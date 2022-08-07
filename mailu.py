@@ -19,7 +19,10 @@ class Mailu:
             return False
 
     def addUser(self,username,password):
-        response = self.requestor.get(self.url+"admin/user/create/mahraga.com")
+        try:
+            response = self.requestor.get(self.url+"admin/user/create/mahraga.com")
+        except requests.RequestException:
+            return False
         if response.status_code == 200:
             try:
                 csrf_token = soup(response.text,'html.parser').select_one('input#csrf_token')["value"]
@@ -38,10 +41,13 @@ class Mailu:
                 "submit": "Save",
                 "csrf_token": str(csrf_token)
             }
-            response = self.requestor.post(self.url+"admin/user/create/mahraga.com",data=account_data)
-            if response.status_code == 302:
-                return True
-            else:
+            try:
+                response = self.requestor.post(self.url+"admin/user/create/mahraga.com",data=account_data)
+                if response.status_code == 302:
+                    return True
+                else:
+                    return False
+            except requests.RequestException:
                 return False
         else:
             return False
