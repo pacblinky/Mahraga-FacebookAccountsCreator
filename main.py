@@ -18,7 +18,7 @@ class App(tk.Tk):
         self.gender = None
         self.saver = None
         self.config = dotenv.dotenv_values("config.env")
-        
+        Person.initUsers("data.json")
         super().__init__()
         self.title('Facebook accounts creator')
         self.openBrowser_btn = tk.Button(self,text="Open Browser",command=self.openBrowser)
@@ -168,6 +168,5 @@ class App(tk.Tk):
             self.destroy()
             
 if __name__ == "__main__":
-  Person.initUsers("data.json")
   app = App()
   app.mainloop()
