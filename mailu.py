@@ -1,3 +1,4 @@
+from os import stat
 import requests
 from bs4 import BeautifulSoup as soup
 
@@ -41,13 +42,10 @@ class Mailu:
                 "submit": "Save",
                 "csrf_token": str(csrf_token)
             }
-            try:
-                response = self.requestor.post(self.url+"admin/user/create/mahraga.com",data=account_data)
-                if response.status_code == 302:
-                    return True
-                else:
-                    return False
-            except requests.RequestException:
+            response = self.requestor.post(self.url+"admin/user/create/mahraga.com",data=account_data)
+            if response.status_code == 302 or response.status_code == 200:
+                return True
+            else:
                 return False
         else:
             return False

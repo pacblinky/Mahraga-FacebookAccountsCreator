@@ -2,7 +2,7 @@ import tkinter as tk
 from mailu import Mailu
 from mailer import Mailer
 from facebot import FaceBot
-from person import Person
+from Person import Person
 import uuid
 from saver import Saver
 import dotenv
@@ -80,6 +80,7 @@ class App(tk.Tk):
     def createAccount(self):
         customMail = False
         code = str(uuid.uuid4())
+        self.password = code.split("-")[1] + code.split("-")[2]
         signup = True
         if not self.bot:
             tk.messagebox.showwarning("Can't create account","Please open the browser first")
@@ -112,8 +113,7 @@ class App(tk.Tk):
                 tk.messagebox.showwarning("Can't create account","Please login to mailu first")
         if signup:
             person = Person.getUser()
-            self.gender = int(person.self.gender)
-            self.password = code.split("-")[1] + code.split("-")[2]
+            self.gender = int(person.gender)
             self.bot.signup(self.email, self.password, person)
             tk.messagebox.showinfo("Creating account", "no touch el browser")
 
